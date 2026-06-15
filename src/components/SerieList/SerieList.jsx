@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography, Container, Box, Paper, Button } from '@mui/material';
 
 export default function SerieList({ series = [], onDelete, onEdit }) {

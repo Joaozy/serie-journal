@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Hook para navegação automática
 import SerieForm from '../components/SerieForm/SerieForm';
 import api from '../services/api'; // Nossa configuração do Axios

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SerieList from '../components/SerieList/SerieList';
 import SerieForm from '../components/SerieForm/SerieForm';
 import api from '../services/api';
