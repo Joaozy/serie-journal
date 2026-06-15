@@ -1,3 +1,4 @@
+import React from 'react';
 import { Typography, Container, Box, Paper, Button } from '@mui/material';
 
 export default function SerieList({ series = [], onDelete, onEdit }) {
@@ -25,14 +26,13 @@ export default function SerieList({ series = [], onDelete, onEdit }) {
               key={serie.id} 
               elevation={2}
               sx={{
-                /* Caixa menor e horizontal (comportamento "quase como tabela") */
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'row' },
                 justifyContent: 'space-between',
                 alignItems: { xs: 'flex-start', sm: 'center' },
                 p: 1.5,
                 px: 3,
-                backgroundColor: 'rgba(255, 255, 255, 0.85)', /* Transparência pedida */
+                backgroundColor: 'rgba(255, 255, 255, 0.85)', 
                 backdropFilter: 'blur(8px)',
                 borderRadius: '10px',
                 transition: 'transform 0.2s',

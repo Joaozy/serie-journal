@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom'; // Hook para navegação automática
+import { useNavigate } from 'react-router-dom'; 
 import SerieForm from '../components/SerieForm/SerieForm';
-import api from '../services/api'; // Nossa configuração do Axios
+import api from '../services/api'; 
 
 export default function Register() {
   const navigate = useNavigate();
@@ -23,7 +23,6 @@ export default function Register() {
 
   return (
     <div>
-      {/* Removemos as props de edição por enquanto, pois esta é a tela de Cadastro Novo */}
       <SerieForm 
         onSave={handleCadastrar} 
       />

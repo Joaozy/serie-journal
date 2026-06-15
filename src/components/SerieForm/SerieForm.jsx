@@ -37,14 +37,14 @@ export default function SerieForm({ onSave, serieParaEditar, cancelarEdicao }) {
     setTimeout(() => setMensagem({texto: '', tipo: ''}), 3000);
   };
 
-  // FUNÇÃO MÁGICA: Cria as caixas de texto com o título fixo FORA da caixa!
+
   const renderInput = (label, name, type = "text", required = false) => (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 'bold', color: '#444' }}>
         {label} {required && <span style={{color: '#E50914'}}>*</span>}
       </Typography>
       <TextField 
-        hiddenLabel // Remove o efeito do título subir
+        hiddenLabel 
         name={name} 
         type={type} 
         value={formData[name]} 
@@ -84,7 +84,7 @@ export default function SerieForm({ onSave, serieParaEditar, cancelarEdicao }) {
         </Typography>
       )}
 
-      {/* Uso da função mágica para renderizar os campos limpos */}
+      
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         
         {renderInput("Título da Série", "titulo", "text", true)}

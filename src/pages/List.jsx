@@ -54,7 +54,6 @@ function List() {
 
   return (
     <div style={{ padding: '20px' }}>
-      {/* O título duplicado foi removido daqui! Deixamos apenas a renderização condicional. */}
       {serieParaEditar ? (
         <SerieForm 
           serieParaEditar={serieParaEditar} 
