@@ -1,91 +1,138 @@
 import { useState, useEffect } from "react";
+import { TextField, Button, Box, Typography, Paper } from '@mui/material';
 
 export default function SerieForm({ onSave, serieParaEditar, cancelarEdicao }) {
-    const estadoInicial ={
-        titulo: '',
-        temporadas: '',
-        dataLancamento: '',
-        diretor: '',
-        produtora: '',
-        categoria: '',
-        dataAssistido: ''
-    };
-    // Estado em formato de Objeto para armazenar campos do formulário
-    const [formData, setFormData] =  useState(estadoInicial);
+  const estadoInicial = {
+    titulo: '', temporadas: '', dataLancamento: '',
+    diretor: '', produtora: '', categoria: '', dataAssistido: ''
+  };
+  
+  const [formData, setFormData] = useState(estadoInicial);
+  const [mensagem, setMensagem] = useState({ texto: '', tipo: ''});
 
-    // feedbacks visuais (erro ou sucesso)
-    const [mensagem, setMensagem] = useState({ texto: '', tipo: ''});
+  useEffect(() => {
+    if (serieParaEditar) {
+      setFormData(serieParaEditar);
+    } else {
+      setFormData(estadoInicial);
+    }
+  }, [serieParaEditar]);
 
-    useEffect(() => {
-        if (serieParaEditar) {
-            setFormData(serieParaEditar);
-        } else {
-            setFormData(estadoInicial);
-        }
-    }, [serieParaEditar]);
-    // Funcao para atualizar campos do formulario
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    // funcao para o botao submit
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.titulo || !formData.temporadas || !formData.diretor) {
+      setMensagem({ texto: 'Por favor, preencha os campos obrigatórios.', tipo: 'error' });
+      return;
+    }
 
-        // verificar se os campos estao vazios
-        if (!formData.titulo || !formData.temporadas || !formData.diretor) {
-            setMensagem({ texto: 'Por favor, preencha os campos principais.', tipo: 'erro'
-            });
-            return;
-        }
+    onSave(formData);
+    if(!serieParaEditar) setFormData(estadoInicial);
 
-        // se passar da validacao, envia os dados via props (onAdd)
-        onSave(formData);
-        setFormData(estadoInicial) //limpar formulario
+    setMensagem({texto: 'Salvo com sucesso!', tipo: 'success'});
+    setTimeout(() => setMensagem({texto: '', tipo: ''}), 3000);
+  };
 
-        // feedback visual de sucesso
-        setMensagem({texto: 'Série cadastrada com sucesso!', tipo: 'sucesso'});
+  // FUNÇÃO MÁGICA: Cria as caixas de texto com o título fixo FORA da caixa!
+  const renderInput = (label, name, type = "text", required = false) => (
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 'bold', color: '#444' }}>
+        {label} {required && <span style={{color: '#E50914'}}>*</span>}
+      </Typography>
+      <TextField 
+        hiddenLabel // Remove o efeito do título subir
+        name={name} 
+        type={type} 
+        value={formData[name]} 
+        onChange={handleChange} 
+        required={required} 
+        fullWidth 
+        size="small" // Caixa um pouco mais fina e elegante
+        sx={{ 
+          backgroundColor: 'rgba(255,255,255,0.7)', // Fundo branquinho para a caixa
+          borderRadius: '6px'
+        }}
+      />
+    </Box>
+  );
 
-        // limpar mensagem de sucesso apos um tempo (3seg)
-        setTimeout(() => {
-            setMensagem({texto: '', tipo: ''});
-        }, 3000);
-    };
-
-    return (
-    <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <h2>{serieParaEditar ? 'Editar Série' : 'Cadastrar Séries'}</h2>
+  return (
+    <Paper 
+      elevation={4} 
+      sx={{ 
+        maxWidth: 600, 
+        mx: 'auto', 
+        mt: 2, 
+        mb: 4,
+        p: 4, 
+        backgroundColor: 'rgba(255, 255, 255, 0.85)', 
+        backdropFilter: 'blur(8px)',
+        borderRadius: '12px'
+      }}
+    >
+      <Typography variant="h5" align="center" color="primary" gutterBottom fontWeight="bold">
+        {serieParaEditar ? 'Editar Série' : 'Cadastrar Nova Série'}
+      </Typography>
       
       {mensagem.texto && (
-        <p style={{ color: mensagem.tipo === 'erro' ? 'red' : 'green' }}>
+        <Typography align="center" color={mensagem.tipo === 'error' ? 'error' : 'success'} fontWeight="bold" sx={{ mb: 2 }}>
           {mensagem.texto}
-        </p>
+        </Typography>
       )}
 
-      <form onSubmit={handleSubmit} style={{ display: 'inline-block', textAlign: 'right' }}>
-        <div style={{ marginBottom: '10px' }}><label>Título: </label><input type="text" name="titulo" value={formData.titulo} onChange={handleChange} /></div>
-        <div style={{ marginBottom: '10px' }}><label>Número de Temporadas: </label><input type="number" name="temporadas" value={formData.temporadas} onChange={handleChange} min="1" /></div>
-        <div style={{ marginBottom: '10px' }}><label>Data de Lançamento da Temporada: </label><input type="date" name="dataLancamento" value={formData.dataLancamento} onChange={handleChange} /></div>
-        <div style={{ marginBottom: '10px' }}><label>Diretor: </label><input type="text" name="diretor" value={formData.diretor} onChange={handleChange} /></div>
-        <div style={{ marginBottom: '10px' }}><label>Produtora: </label><input type="text" name="produtora" value={formData.produtora} onChange={handleChange} /></div>
-        <div style={{ marginBottom: '10px' }}><label>Categoria: </label><input type="text" name="categoria" value={formData.categoria} onChange={handleChange} /></div>
-        <div style={{ marginBottom: '10px' }}><label>Data em que assistiu: </label><input type="date" name="dataAssistido" value={formData.dataAssistido} onChange={handleChange} /></div>
+      {/* Uso da função mágica para renderizar os campos limpos */}
+      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        
+        {renderInput("Título da Série", "titulo", "text", true)}
+        {renderInput("Nº de Temporadas", "temporadas", "number", true)}
+        {renderInput("Data de Lançamento", "dataLancamento", "date")}
+        {renderInput("Diretor", "diretor", "text", true)}
+        {renderInput("Produtora", "produtora", "text")}
+        {renderInput("Categoria", "categoria", "text")}
+        {renderInput("Data em que Assistiu", "dataAssistido", "date")}
 
-        <div style={{ textAlign: 'center', marginTop: '15px' }}>
-          <button type="submit">{serieParaEditar ? 'Salvar Alterações' : 'Cadastrar Série'}</button>
+        {/* Botões modernizados (sem letras 100% maiúsculas e com bordas mais arredondadas) */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 2 }}>
+          <Button 
+            variant="contained" 
+            color="primary"
+            type="submit" 
+            sx={{ 
+              padding: '10px 30px', 
+              fontWeight: 'bold', 
+              borderRadius: '8px', 
+              textTransform: 'none', // Remove o texto forçado em maiúsculo
+              fontSize: '1rem',
+              boxShadow: '0 4px 10px rgba(25, 118, 210, 0.3)'
+            }}
+          >
+            {serieParaEditar ? 'Salvar Alterações' : 'Cadastrar Série'}
+          </Button>
           
-          {/* Botão para cancelar a edição e limpar o formulário */}
           {serieParaEditar && (
-            <button type="button" onClick={cancelarEdicao} style={{ marginLeft: '10px' }}>
+            <Button 
+              variant="outlined" 
+              onClick={cancelarEdicao} 
+              sx={{ 
+                padding: '10px 30px', 
+                fontWeight: 'bold', 
+                borderRadius: '8px', 
+                textTransform: 'none',
+                fontSize: '1rem', 
+                color: '#555',
+                borderColor: '#aaa',
+                '&:hover': { backgroundColor: '#f0f0f0', borderColor: '#888' }
+              }}
+            >
               Cancelar
-            </button>
+            </Button>
           )}
-        </div>
-      </form>
-    </div>
+        </Box>
+      </Box>
+    </Paper>
   );
 }
