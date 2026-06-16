@@ -44,7 +44,6 @@ export default function SerieList({ series = [], onDelete, onEdit }) {
                   {serie.titulo}
                 </Typography>
                 
-                {/* Todo o conteúdo condensado de forma fácil de ler */}
                 <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem', mt: 0.5 }}>
                   <strong>{serie.temporadas} temp.</strong> | Lançamento: {serie.dataLancamento} | Diretor: {serie.diretor} <br/>
                   Produtora: {serie.produtora} | Categoria: {serie.categoria} | Assistido: {serie.dataAssistido}
