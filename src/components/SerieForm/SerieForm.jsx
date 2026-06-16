@@ -51,9 +51,9 @@ export default function SerieForm({ onSave, serieParaEditar, cancelarEdicao }) {
         onChange={handleChange} 
         required={required} 
         fullWidth 
-        size="small" // Caixa um pouco mais fina e elegante
+        size="small" 
         sx={{ 
-          backgroundColor: 'rgba(255,255,255,0.7)', // Fundo branquinho para a caixa
+          backgroundColor: 'rgba(255,255,255,0.7)', 
           borderRadius: '6px'
         }}
       />
@@ -95,7 +95,7 @@ export default function SerieForm({ onSave, serieParaEditar, cancelarEdicao }) {
         {renderInput("Categoria", "categoria", "text")}
         {renderInput("Data em que Assistiu", "dataAssistido", "date")}
 
-        {/* Botões modernizados (sem letras 100% maiúsculas e com bordas mais arredondadas) */}
+        
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 2 }}>
           <Button 
             variant="contained" 
@@ -105,7 +105,7 @@ export default function SerieForm({ onSave, serieParaEditar, cancelarEdicao }) {
               padding: '10px 30px', 
               fontWeight: 'bold', 
               borderRadius: '8px', 
-              textTransform: 'none', // Remove o texto forçado em maiúsculo
+              textTransform: 'none', 
               fontSize: '1rem',
               boxShadow: '0 4px 10px rgba(25, 118, 210, 0.3)'
             }}

@@ -10,6 +10,7 @@ function List() {
   const carregarSeries = async () => {
     try {
       const response = await api.get('/series');
+      // console.log("Dados recebidos da API:", response.data);
       setMinhasSeries(response.data);
     } catch (error) {
       console.error("Erro ao buscar as séries:", error);
